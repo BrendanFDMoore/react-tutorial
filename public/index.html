@@ -91,15 +91,39 @@
       });
 
       var CommentForm = React.createClass({
-
+        getInitialState: function() {
+          return {author: '', text: ''};
+        },
+        handleAuthorChange: function(e){
+          this.setState({author:e.target.value});
+        },
+        handleTextChange: function(e){
+          this.setState({text:e.target.value});
+        },
         render: function(){
           return (
             <form className="commentForm">
               <span>Hello world! I am a CommentForm!</span>
               <br />
-              <input type="text" placeholder="Your name" />
-              <input type="text" placeholder="Your comment..." />
+              <input 
+                type="text"
+                placeholder="Your name" 
+                value={this.state.author}
+                onChange={this.handleAuthorChange}
+              />
+              <input 
+                type="text"
+                placeholder="Your comment..." 
+                value={this.state.text}
+                onChange={this.handleTextChange}
+              />
               <input type="submit" value="Post" />
+              <br /><br />
+              <div>
+                <h4>Form Diagnostics:</h4>
+                <span>Author = {this.state.author}</span><br />
+                <span>Text = {this.state.text}</span><br />
+              </div>
             </form>
           );
         }
