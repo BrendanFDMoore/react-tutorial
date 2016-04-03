@@ -41,13 +41,16 @@
           this.loadCommentsFromServer();
           setInterval(this.loadCommentsFromServer, this.pollInterval);
         },
+        handleCommentSubmit: function(comment){
+          //TODO: submit comment to server and refresh list
+        },
         render: function(){
           return (
             <div className="commentBox">
               Hello world! I am a filled CommentBox!
               <h1>Some comments here...</h1>
               <CommentList data={this.state.data}/>
-              <CommentForm />
+              <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
             </div>
           );
         }
@@ -107,7 +110,7 @@
           if (!text || !author){
             return;
           }
-          //TODO: send server request to store new comment
+          this.props.onCommentSubmit({author: author, text: text});
           this.setState(this.getInitialState());
         },
         render: function(){
