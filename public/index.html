@@ -42,6 +42,13 @@
           setInterval(this.loadCommentsFromServer, this.pollInterval);
         },
         handleCommentSubmit: function(comment){
+          var currentComments = this.state.data;
+          //Optimistically add the comment with Date.now() as id, 
+          //to be replaced by server on ajax callback with real id.
+          //Date.now() not really production suitable, but fine for this.
+          comment.id = Date.now();
+          var newComments = currentComments.concat([comment]);
+          this.setState({data:newComments});
           $.ajax({
             url: this.props.url,
             type: 'POST',
@@ -51,6 +58,8 @@
               this.setState({data:commentdata});
             }.bind(this),
             error: function(xhr, status, err){
+              //on error, reset state to comments before adding the new one
+              this.setState({data:currentComments});
               console.error(this.props.url, status, err.toString());
             }.bind(this)
           });
