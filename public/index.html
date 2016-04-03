@@ -42,7 +42,18 @@
           setInterval(this.loadCommentsFromServer, this.pollInterval);
         },
         handleCommentSubmit: function(comment){
-          //TODO: submit comment to server and refresh list
+          $.ajax({
+            url: this.props.url,
+            type: 'POST',
+            dataType: 'json',
+            data: comment,
+            success: function(commentdata){
+              this.setState({data:commentdata});
+            }.bind(this),
+            error: function(xhr, status, err){
+              console.error(this.props.url, status, err.toString());
+            }.bind(this)
+          });
         },
         render: function(){
           return (
