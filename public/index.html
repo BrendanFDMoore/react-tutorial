@@ -49,11 +49,10 @@
         render: function(){
           return (
             <div className="comment">
-              Hello world! I am a Comment!
               <h2 className="commentAuthor">
                 {this.props.author}
               </h2>
-              {this.props.children}
+              {marked(this.props.children.toString())}
             </div>
           );
         }
